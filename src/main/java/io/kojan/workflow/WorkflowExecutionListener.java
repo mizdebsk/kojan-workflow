@@ -16,15 +16,16 @@
 package io.kojan.workflow;
 
 import io.kojan.workflow.model.Task;
+import io.kojan.workflow.model.Workflow;
 
 /**
  * @author Mikolaj Izdebski
  */
-interface Logger {
-    void logTaskRunning(Task task);
-    void logTaskSucceeded(FinishedTask finishedTask);
-    void logTaskFailed(FinishedTask finishedTask);
-    void logTaskReused(FinishedTask finishedTask);
-    void logWorkflowSucceeded();
-    void logWorkflowFailed();
+public interface WorkflowExecutionListener {
+    void taskRunning(Workflow workflow, Task task);
+    void taskSucceeded(Workflow workflow, FinishedTask finishedTask);
+    void taskFailed(Workflow workflow, FinishedTask finishedTask);
+    void taskReused(Workflow workflow, FinishedTask finishedTask);
+    void workflowSucceeded(Workflow workflow);
+    void workflowFailed(Workflow workflow);
 }

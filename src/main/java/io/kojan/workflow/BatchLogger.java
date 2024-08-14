@@ -16,11 +16,12 @@
 package io.kojan.workflow;
 
 import io.kojan.workflow.model.Task;
+import io.kojan.workflow.model.Workflow;
 
 /**
  * @author Mikolaj Izdebski
  */
-public class BatchLogger implements Logger {
+public class BatchLogger implements WorkflowExecutionListener {
     private void log(Object... args) {
         StringBuilder sb = new StringBuilder();
 
@@ -32,34 +33,34 @@ public class BatchLogger implements Logger {
     }
 
     @Override
-    public void logTaskRunning(Task task) {
+    public void taskRunning(Workflow workflow, Task task) {
         log(task, " running");
     }
 
     @Override
-    public void logTaskSucceeded(FinishedTask finishedTask) {
+    public void taskSucceeded(Workflow workflow, FinishedTask finishedTask) {
         log(finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(), ", reason: ",
                 finishedTask.getResult().getOutcomeReason());
     }
 
     @Override
-    public void logTaskFailed(FinishedTask finishedTask) {
+    public void taskFailed(Workflow workflow, FinishedTask finishedTask) {
         log(finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(), ", reason: ",
                 finishedTask.getResult().getOutcomeReason());
     }
 
     @Override
-    public void logTaskReused(FinishedTask finishedTask) {
+    public void taskReused(Workflow workflow, FinishedTask finishedTask) {
         log(finishedTask.getTask(), " cached result was reused");
     }
 
     @Override
-    public void logWorkflowSucceeded() {
+    public void workflowSucceeded(Workflow workflow) {
         log("Workflow complete");
     }
 
     @Override
-    public void logWorkflowFailed() {
+    public void workflowFailed(Workflow workflow) {
         log("Workflow INCOMPLETE");
     }
 }

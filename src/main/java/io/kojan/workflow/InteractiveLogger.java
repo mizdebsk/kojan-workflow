@@ -16,11 +16,12 @@
 package io.kojan.workflow;
 
 import io.kojan.workflow.model.Task;
+import io.kojan.workflow.model.Workflow;
 
 /**
  * @author Mikolaj Izdebski
  */
-class InteractiveLogger implements Logger {
+class InteractiveLogger implements WorkflowExecutionListener {
     private enum Color {
         RUNNING("34"), FAILED("31"), SUCCEEDED("32"), REUSED("36"), RESET("");
 
@@ -78,13 +79,13 @@ class InteractiveLogger implements Logger {
     }
 
     @Override
-    public void logTaskRunning(Task task) {
+    public void taskRunning(Workflow workflow, Task task) {
         nRunning++;
         log(Color.RUNNING, task, " running");
     }
 
     @Override
-    public void logTaskSucceeded(FinishedTask finishedTask) {
+    public void taskSucceeded(Workflow workflow, FinishedTask finishedTask) {
         nRunning--;
         nSucceeded++;
         log(Color.SUCCEEDED, finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(),
@@ -92,7 +93,7 @@ class InteractiveLogger implements Logger {
     }
 
     @Override
-    public void logTaskFailed(FinishedTask finishedTask) {
+    public void taskFailed(Workflow workflow, FinishedTask finishedTask) {
         nRunning--;
         nFailed++;
         log(Color.FAILED, finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(),
@@ -100,19 +101,19 @@ class InteractiveLogger implements Logger {
     }
 
     @Override
-    public void logTaskReused(FinishedTask finishedTask) {
+    public void taskReused(Workflow workflow, FinishedTask finishedTask) {
         nSucceeded++;
         log(Color.REUSED, finishedTask.getTask(), " cached result was reused");
     }
 
     @Override
-    public void logWorkflowSucceeded() {
+    public void workflowSucceeded(Workflow workflow) {
         log(Color.SUCCEEDED, "Workflow complete");
         System.err.println();
     }
 
     @Override
-    public void logWorkflowFailed() {
+    public void workflowFailed(Workflow workflow) {
         log(Color.FAILED, "Workflow INCOMPLETE");
         System.err.println();
     }

@@ -37,19 +37,21 @@ public class WorkflowExecutor {
     private final Set<Task> pendingOrRunningTasks = new LinkedHashSet<>();
     private final Set<FinishedTask> successfullyFinishedTasks = new LinkedHashSet<>();
     private final Set<FinishedTask> unsuccessfullyFinishedTasks = new LinkedHashSet<>();
-    private final Logger logger;
     private final Throttle throttle;
-    private final Dumper dumper;
+    private final List<WorkflowExecutionListener> listeners = new ArrayList<>();
 
     public WorkflowExecutor(Workflow wf, Path wfPath, TaskHandlerFactory handlerFactory, CacheManager cacheManager,
             Throttle throttle, boolean batchMode) {
         wf.getTasks().stream().forEach(workflowBuilder::addTask);
         newTasks = new LinkedHashSet<>(wf.getTasks());
-        dumper = new Dumper(wfPath);
         this.handlerFactory = handlerFactory;
         this.cacheManager = cacheManager;
-        this.logger = batchMode ? new BatchLogger() : new InteractiveLogger(wf.getTasks().size());
         this.throttle = throttle;
+        if (batchMode) {
+            listeners.add(new BatchLogger());
+        } else {
+            listeners.add(new InteractiveLogger(wf.getTasks().size()));
+        }
     }
 
     public CacheManager getCacheManager() {
@@ -60,8 +62,14 @@ public class WorkflowExecutor {
         return throttle;
     }
 
+    public void addExecutionListener(WorkflowExecutionListener listener) {
+        listeners.add(listener);
+    }
+
     public synchronized void stateChangeFromPendingToRunning(Task task) {
-        logger.logTaskRunning(task);
+        for (WorkflowExecutionListener listener : listeners) {
+            listener.taskRunning(workflowBuilder.build(), task);
+        }
     }
 
     public synchronized void stateChangeFromRunningToFinished(FinishedTask finishedTask) {
@@ -69,12 +77,15 @@ public class WorkflowExecutor {
         pendingOrRunningTasks.remove(finishedTask.getTask());
         if (finishedTask.getResult().getOutcome() == TaskOutcome.SUCCESS) {
             successfullyFinishedTasks.add(finishedTask);
-            logger.logTaskSucceeded(finishedTask);
+            for (WorkflowExecutionListener listener : listeners) {
+                listener.taskSucceeded(workflowBuilder.build(), finishedTask);
+            }
         } else {
             unsuccessfullyFinishedTasks.add(finishedTask);
-            logger.logTaskFailed(finishedTask);
+            for (WorkflowExecutionListener listener : listeners) {
+                listener.taskFailed(workflowBuilder.build(), finishedTask);
+            }
         }
-        dumper.dumpEventually(workflowBuilder.build());
         notify();
     }
 
@@ -82,15 +93,14 @@ public class WorkflowExecutor {
         workflowBuilder.addResult(finishedTask.getResult());
         pendingOrRunningTasks.remove(finishedTask.getTask());
         successfullyFinishedTasks.add(finishedTask);
-        dumper.dumpEventually(workflowBuilder.build());
         notify();
-        logger.logTaskReused(finishedTask);
+        for (WorkflowExecutionListener listener : listeners) {
+            listener.taskReused(workflowBuilder.build(), finishedTask);
+        }
     }
 
-    public synchronized Workflow execute() throws ReflectiveOperationException {
+    public synchronized Workflow execute() {
         List<Thread> threads = new ArrayList<>();
-        dumper.start();
-        threads.add(dumper);
         outer : for (;;) {
             for (Task td : newTasks) {
                 List<FinishedTask> deps = new ArrayList<>();
@@ -124,12 +134,16 @@ public class WorkflowExecutor {
             }
             break;
         }
+        Workflow workflow = workflowBuilder.build();
         if (newTasks.isEmpty() && pendingOrRunningTasks.isEmpty()) {
-            logger.logWorkflowSucceeded();
+            for (WorkflowExecutionListener listener : listeners) {
+                listener.workflowSucceeded(workflow);
+            }
         } else {
-            logger.logWorkflowFailed();
+            for (WorkflowExecutionListener listener : listeners) {
+                listener.workflowFailed(workflow);
+            }
         }
-        dumper.terminate();
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -146,6 +160,6 @@ public class WorkflowExecutor {
             }
         }
 
-        return workflowBuilder.build();
+        return workflow;
     }
 }
