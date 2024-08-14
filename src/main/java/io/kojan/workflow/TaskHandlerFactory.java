@@ -15,27 +15,11 @@
  */
 package io.kojan.workflow;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Function;
-
 import io.kojan.workflow.model.Task;
 
 /**
  * @author Mikolaj Izdebski
  */
-public class TaskHandlerFactory extends Thread {
-    private final Map<String, Function<Task, ? extends TaskHandler>> registry = new LinkedHashMap<>();
-
-    public void registerHandler(Class<? extends TaskHandler> cls, Function<Task, ? extends TaskHandler> ctor) {
-        registry.put(cls.getCanonicalName(), ctor);
-    }
-
-    public TaskHandler createTaskHandler(Task task) {
-        Function<Task, ? extends TaskHandler> ctor = registry.get(task.getHandler());
-        if (ctor == null) {
-            throw new IllegalArgumentException("Unsupported task handler: " + task.getHandler());
-        }
-        return ctor.apply(task);
-    }
+public interface TaskHandlerFactory {
+    TaskHandler createTaskHandler(Task task);
 }
