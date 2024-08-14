@@ -16,6 +16,8 @@
 package io.kojan.workflow.model;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,11 +53,27 @@ public class Workflow {
         ENTITY.addRelationship(Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult);
     }
 
+    public static Workflow readFromXML(Reader reader) throws IOException, XMLStreamException {
+        return ENTITY.readFromXML(reader);
+    }
+
     public static Workflow readFromXML(Path path) throws IOException, XMLStreamException {
         return ENTITY.readFromXML(path);
     }
 
+    public static Workflow fromXML(String xml) throws IOException, XMLStreamException {
+        return ENTITY.fromXML(xml);
+    }
+
+    public void writeToXML(Writer writer) throws IOException, XMLStreamException {
+        ENTITY.writeToXML(writer, this);
+    }
+
     public void writeToXML(Path path) throws IOException, XMLStreamException {
         ENTITY.writeToXML(path, this);
+    }
+
+    public String toXML() throws IOException, XMLStreamException {
+        return ENTITY.toXML(this);
     }
 }
