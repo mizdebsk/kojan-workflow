@@ -121,7 +121,7 @@ public class TaskExecution extends Thread {
             TaskTermination.error(task + " was expected to have only one dependency artifact of type " + type);
         }
 
-        return artifacts.iterator().next();
+        return artifacts.getFirst();
     }
 
     public Path addArtifact(ArtifactType type, String name) {
