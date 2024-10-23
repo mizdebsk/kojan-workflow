@@ -15,6 +15,7 @@
  */
 package io.kojan.workflow.model;
 
+import io.kojan.xml.Attribute;
 import io.kojan.xml.Entity;
 
 /** @author Mikolaj Izdebski */
@@ -35,10 +36,9 @@ public class Parameter {
         return value;
     }
 
-    static final Entity<Parameter, ParameterBuilder> ENTITY = new Entity<>("parameter", ParameterBuilder::new);
-
-    static {
-        ENTITY.addAttribute("name", Parameter::getName, ParameterBuilder::setName);
-        ENTITY.addAttribute("value", Parameter::getValue, ParameterBuilder::setValue);
-    }
+    static final Entity<Parameter, ParameterBuilder> ENTITY = Entity.of(
+            "parameter",
+            ParameterBuilder::new,
+            Attribute.of("name", Parameter::getName, ParameterBuilder::setName),
+            Attribute.of("value", Parameter::getValue, ParameterBuilder::setValue));
 }

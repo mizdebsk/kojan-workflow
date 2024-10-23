@@ -16,6 +16,8 @@
 package io.kojan.workflow.model;
 
 import io.kojan.xml.Entity;
+import io.kojan.xml.Relationship;
+import io.kojan.xml.XMLException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -23,7 +25,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.xml.stream.XMLStreamException;
 
 /** @author Mikolaj Izdebski */
 public class Workflow {
@@ -43,34 +44,33 @@ public class Workflow {
         return results;
     }
 
-    static final Entity<Workflow, WorkflowBuilder> ENTITY = new Entity<>("workflow", WorkflowBuilder::new);
+    static final Entity<Workflow, WorkflowBuilder> ENTITY = Entity.of(
+            "workflow",
+            WorkflowBuilder::new,
+            Relationship.of(Task.ENTITY, Workflow::getTasks, WorkflowBuilder::addTask),
+            Relationship.of(Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult));
 
-    static {
-        ENTITY.addRelationship(Task.ENTITY, Workflow::getTasks, WorkflowBuilder::addTask);
-        ENTITY.addRelationship(Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult);
-    }
-
-    public static Workflow readFromXML(Reader reader) throws IOException, XMLStreamException {
+    public static Workflow readFromXML(Reader reader) throws XMLException {
         return ENTITY.readFromXML(reader);
     }
 
-    public static Workflow readFromXML(Path path) throws IOException, XMLStreamException {
+    public static Workflow readFromXML(Path path) throws IOException, XMLException {
         return ENTITY.readFromXML(path);
     }
 
-    public static Workflow fromXML(String xml) throws IOException, XMLStreamException {
+    public static Workflow fromXML(String xml) throws XMLException {
         return ENTITY.fromXML(xml);
     }
 
-    public void writeToXML(Writer writer) throws IOException, XMLStreamException {
+    public void writeToXML(Writer writer) throws XMLException {
         ENTITY.writeToXML(writer, this);
     }
 
-    public void writeToXML(Path path) throws IOException, XMLStreamException {
+    public void writeToXML(Path path) throws IOException, XMLException {
         ENTITY.writeToXML(path, this);
     }
 
-    public String toXML() throws IOException, XMLStreamException {
+    public String toXML() throws XMLException {
         return ENTITY.toXML(this);
     }
 }

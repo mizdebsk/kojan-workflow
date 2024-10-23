@@ -21,6 +21,7 @@ import io.kojan.workflow.model.Parameter;
 import io.kojan.workflow.model.Result;
 import io.kojan.workflow.model.Task;
 import io.kojan.workflow.model.TaskOutcome;
+import io.kojan.xml.XMLException;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -32,7 +33,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.xml.stream.XMLStreamException;
 
 /** @author Mikolaj Izdebski */
 public class TaskExecution extends Thread {
@@ -189,7 +189,7 @@ public class TaskExecution extends Thread {
                     wfe.stateChangeFromPendingToFinished(finishedTask);
                     return;
                 }
-            } catch (IOException | XMLStreamException e) {
+            } catch (IOException | XMLException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -214,7 +214,7 @@ public class TaskExecution extends Thread {
                 try {
                     result.writeToXML(resultDir.resolve("result.xml"));
                     Files.createFile(resultDir.resolve("stamp"));
-                } catch (IOException | XMLStreamException e) {
+                } catch (IOException | XMLException e) {
                     throw new RuntimeException(e);
                 }
             }
