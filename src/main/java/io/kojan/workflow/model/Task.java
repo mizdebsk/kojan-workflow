@@ -15,14 +15,11 @@
  */
 package io.kojan.workflow.model;
 
+import io.kojan.xml.Entity;
 import java.util.Collections;
 import java.util.List;
 
-import io.kojan.xml.Entity;
-
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class Task {
     private final String id;
     private final String handler;
@@ -65,6 +62,7 @@ public class Task {
     }
 
     static final Entity<Task, TaskBuilder> ENTITY = new Entity<>("task", TaskBuilder::new);
+
     static {
         ENTITY.addAttribute("id", Task::getId, TaskBuilder::setId);
         ENTITY.addAttribute("handler", Task::getHandler, TaskBuilder::setHandler);

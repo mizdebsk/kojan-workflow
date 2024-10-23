@@ -15,20 +15,17 @@
  */
 package io.kojan.workflow;
 
+import io.kojan.workflow.model.Task;
+import io.kojan.workflow.model.TaskOutcome;
+import io.kojan.workflow.model.Workflow;
+import io.kojan.workflow.model.WorkflowBuilder;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import io.kojan.workflow.model.Task;
-import io.kojan.workflow.model.TaskOutcome;
-import io.kojan.workflow.model.Workflow;
-import io.kojan.workflow.model.WorkflowBuilder;
-
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class WorkflowExecutor {
     private final TaskHandlerFactory handlerFactory;
     private final CacheManager cacheManager;
@@ -40,8 +37,13 @@ public class WorkflowExecutor {
     private final Throttle throttle;
     private final List<WorkflowExecutionListener> listeners = new ArrayList<>();
 
-    public WorkflowExecutor(Workflow wf, Path wfPath, TaskHandlerFactory handlerFactory, CacheManager cacheManager,
-            Throttle throttle, boolean batchMode) {
+    public WorkflowExecutor(
+            Workflow wf,
+            Path wfPath,
+            TaskHandlerFactory handlerFactory,
+            CacheManager cacheManager,
+            Throttle throttle,
+            boolean batchMode) {
         wf.getTasks().stream().forEach(workflowBuilder::addTask);
         newTasks = new LinkedHashSet<>(wf.getTasks());
         this.handlerFactory = handlerFactory;
@@ -101,7 +103,8 @@ public class WorkflowExecutor {
 
     public synchronized Workflow execute() {
         List<Thread> threads = new ArrayList<>();
-        outer : for (;;) {
+        outer:
+        for (; ; ) {
             for (Task td : newTasks) {
                 List<FinishedTask> deps = new ArrayList<>();
                 for (String depId : td.getDependencies()) {

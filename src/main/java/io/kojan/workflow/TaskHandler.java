@@ -15,9 +15,7 @@
  */
 package io.kojan.workflow;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public interface TaskHandler {
     void handleTask(TaskExecution task) throws TaskTermination;
 }

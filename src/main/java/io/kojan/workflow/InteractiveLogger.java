@@ -18,12 +18,14 @@ package io.kojan.workflow;
 import io.kojan.workflow.model.Task;
 import io.kojan.workflow.model.Workflow;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 class InteractiveLogger implements WorkflowExecutionListener {
     private enum Color {
-        RUNNING("34"), FAILED("31"), SUCCEEDED("32"), REUSED("36"), RESET("");
+        RUNNING("34"),
+        FAILED("31"),
+        SUCCEEDED("32"),
+        REUSED("36"),
+        RESET("");
 
         private Color(String s) {
             escapeCode = "\033[" + s + "m";
@@ -64,13 +66,25 @@ class InteractiveLogger implements WorkflowExecutionListener {
         len = sb.length();
         sb.append("[ Tasks: ");
         if (nRunning != 0) {
-            sb.append("running: ").append(Color.RUNNING).append(nRunning).append(Color.RESET).append(", ");
+            sb.append("running: ")
+                    .append(Color.RUNNING)
+                    .append(nRunning)
+                    .append(Color.RESET)
+                    .append(", ");
         }
         if (nSucceeded != 0) {
-            sb.append("succeeded: ").append(Color.SUCCEEDED).append(nSucceeded).append(Color.RESET).append(", ");
+            sb.append("succeeded: ")
+                    .append(Color.SUCCEEDED)
+                    .append(nSucceeded)
+                    .append(Color.RESET)
+                    .append(", ");
         }
         if (nFailed != 0) {
-            sb.append("failed: ").append(Color.FAILED).append(nFailed).append(Color.RESET).append(", ");
+            sb.append("failed: ")
+                    .append(Color.FAILED)
+                    .append(nFailed)
+                    .append(Color.RESET)
+                    .append(", ");
         }
         sb.append("all: ").append(taskCount).append(" ]");
         len = sb.length() - len;
@@ -88,16 +102,26 @@ class InteractiveLogger implements WorkflowExecutionListener {
     public void taskSucceeded(Workflow workflow, FinishedTask finishedTask) {
         nRunning--;
         nSucceeded++;
-        log(Color.SUCCEEDED, finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(),
-                ", reason: ", finishedTask.getResult().getOutcomeReason());
+        log(
+                Color.SUCCEEDED,
+                finishedTask.getTask(),
+                " finished; outcome is ",
+                finishedTask.getResult().getOutcome(),
+                ", reason: ",
+                finishedTask.getResult().getOutcomeReason());
     }
 
     @Override
     public void taskFailed(Workflow workflow, FinishedTask finishedTask) {
         nRunning--;
         nFailed++;
-        log(Color.FAILED, finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(),
-                ", reason: ", finishedTask.getResult().getOutcomeReason());
+        log(
+                Color.FAILED,
+                finishedTask.getTask(),
+                " finished; outcome is ",
+                finishedTask.getResult().getOutcome(),
+                ", reason: ",
+                finishedTask.getResult().getOutcomeReason());
     }
 
     @Override

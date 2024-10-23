@@ -15,6 +15,7 @@
  */
 package io.kojan.workflow.model;
 
+import io.kojan.xml.Entity;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -22,14 +23,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.xml.stream.XMLStreamException;
 
-import io.kojan.xml.Entity;
-
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class Workflow {
     private final List<Task> tasks;
     private final List<Result> results;
@@ -48,6 +44,7 @@ public class Workflow {
     }
 
     static final Entity<Workflow, WorkflowBuilder> ENTITY = new Entity<>("workflow", WorkflowBuilder::new);
+
     static {
         ENTITY.addRelationship(Task.ENTITY, Workflow::getTasks, WorkflowBuilder::addTask);
         ENTITY.addRelationship(Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult);

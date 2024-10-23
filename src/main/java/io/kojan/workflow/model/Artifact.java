@@ -17,9 +17,7 @@ package io.kojan.workflow.model;
 
 import io.kojan.xml.Entity;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class Artifact {
     private final ArtifactType type;
     private final String name;
@@ -38,9 +36,10 @@ public class Artifact {
     }
 
     static final Entity<Artifact, ArtifactBuilder> ENTITY = new Entity<>("artifact", ArtifactBuilder::new);
+
     static {
-        ENTITY.addAttribute("type", Artifact::getType, ArtifactBuilder::setType, ArtifactType::toString,
-                ArtifactType::valueOf);
+        ENTITY.addAttribute(
+                "type", Artifact::getType, ArtifactBuilder::setType, ArtifactType::toString, ArtifactType::valueOf);
         ENTITY.addAttribute("name", Artifact::getName, ArtifactBuilder::setName);
     }
 }
