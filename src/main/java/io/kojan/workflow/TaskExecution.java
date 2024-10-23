@@ -15,6 +15,12 @@
  */
 package io.kojan.workflow;
 
+import io.kojan.workflow.model.Artifact;
+import io.kojan.workflow.model.ArtifactType;
+import io.kojan.workflow.model.Parameter;
+import io.kojan.workflow.model.Result;
+import io.kojan.workflow.model.Task;
+import io.kojan.workflow.model.TaskOutcome;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -26,19 +32,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.xml.stream.XMLStreamException;
 
-import io.kojan.workflow.model.Artifact;
-import io.kojan.workflow.model.ArtifactType;
-import io.kojan.workflow.model.Parameter;
-import io.kojan.workflow.model.Result;
-import io.kojan.workflow.model.Task;
-import io.kojan.workflow.model.TaskOutcome;
-
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class TaskExecution extends Thread {
     private final WorkflowExecutor wfe;
     private final TaskHandlerFactory handlerFactory;
@@ -49,8 +45,8 @@ public class TaskExecution extends Thread {
     private final List<Artifact> artifacts = new ArrayList<>();
     private Path workDir;
 
-    public TaskExecution(WorkflowExecutor wfe, TaskHandlerFactory handlerFactory, Task task,
-            List<FinishedTask> dependencies) {
+    public TaskExecution(
+            WorkflowExecutor wfe, TaskHandlerFactory handlerFactory, Task task, List<FinishedTask> dependencies) {
         this.wfe = wfe;
         this.handlerFactory = handlerFactory;
         this.task = task;
@@ -71,7 +67,10 @@ public class TaskExecution extends Thread {
                 md.update(Byte.MIN_VALUE);
             }
             byte[] digest = md.digest();
-            this.resultId = new BigInteger(1, digest).setBit(digest.length << 3).toString(16).substring(1)
+            this.resultId = new BigInteger(1, digest)
+                    .setBit(digest.length << 3)
+                    .toString(16)
+                    .substring(1)
                     .toUpperCase();
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException(e);
@@ -132,7 +131,10 @@ public class TaskExecution extends Thread {
 
     private void deleteDirectoryIfExists(Path dir) throws IOException {
         if (dir != null && Files.isDirectory(dir)) {
-            Files.walk(dir).map(Path::toFile).sorted((o1, o2) -> -o1.compareTo(o2)).forEach(File::delete);
+            Files.walk(dir)
+                    .map(Path::toFile)
+                    .sorted((o1, o2) -> -o1.compareTo(o2))
+                    .forEach(File::delete);
         }
     }
 
@@ -180,8 +182,9 @@ public class TaskExecution extends Thread {
 
                 // All dependency tasks completed before cached result was even
                 // started?
-                if (getDependencies().stream().allMatch(
-                        dep -> dep.getResult().getTimeFinished().compareTo(cachedResult.getTimeStarted()) <= 0)) {
+                if (getDependencies().stream()
+                        .allMatch(dep ->
+                                dep.getResult().getTimeFinished().compareTo(cachedResult.getTimeStarted()) <= 0)) {
                     FinishedTask finishedTask = new FinishedTask(getTask(), cachedResult, resultDir);
                     wfe.stateChangeFromPendingToFinished(finishedTask);
                     return;
@@ -199,8 +202,14 @@ public class TaskExecution extends Thread {
             TaskTermination termination = handleTask();
             LocalDateTime timeFinished = LocalDateTime.now();
 
-            Result result = new Result(resultId, task.getId(), artifacts, termination.getOutcome(),
-                    termination.getMessage(), timeStarted, timeFinished);
+            Result result = new Result(
+                    resultId,
+                    task.getId(),
+                    artifacts,
+                    termination.getOutcome(),
+                    termination.getMessage(),
+                    timeStarted,
+                    timeFinished);
             if (result.getOutcome() == TaskOutcome.SUCCESS) {
                 try {
                     result.writeToXML(resultDir.resolve("result.xml"));

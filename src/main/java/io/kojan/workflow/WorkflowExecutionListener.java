@@ -18,14 +18,17 @@ package io.kojan.workflow;
 import io.kojan.workflow.model.Task;
 import io.kojan.workflow.model.Workflow;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public interface WorkflowExecutionListener {
     void taskRunning(Workflow workflow, Task task);
+
     void taskSucceeded(Workflow workflow, FinishedTask finishedTask);
+
     void taskFailed(Workflow workflow, FinishedTask finishedTask);
+
     void taskReused(Workflow workflow, FinishedTask finishedTask);
+
     void workflowSucceeded(Workflow workflow);
+
     void workflowFailed(Workflow workflow);
 }

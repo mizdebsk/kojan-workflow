@@ -15,14 +15,11 @@
  */
 package io.kojan.workflow.model;
 
+import io.kojan.xml.Builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.kojan.xml.Builder;
-
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class WorkflowBuilder implements Builder<Workflow> {
     private final List<Task> tasks = new ArrayList<>();
     private final List<Result> results = new ArrayList<>();

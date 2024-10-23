@@ -20,9 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermissions;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class CacheManager {
     private final Path resultRootDir;
     private final Path cacheRootDir;
@@ -65,7 +63,9 @@ public class CacheManager {
     public Path createPending(String key) throws TaskTermination, IOException {
         Path cachePendingDir = cacheRootDir.resolve("pending");
         Files.createDirectories(cachePendingDir);
-        return Files.createTempDirectory(cachePendingDir, key,
+        return Files.createTempDirectory(
+                cachePendingDir,
+                key,
                 PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxr-xr-x")));
     }
 

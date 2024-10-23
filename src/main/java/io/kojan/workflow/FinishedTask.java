@@ -15,15 +15,12 @@
  */
 package io.kojan.workflow;
 
-import java.nio.file.Path;
-
 import io.kojan.workflow.model.Artifact;
 import io.kojan.workflow.model.Result;
 import io.kojan.workflow.model.Task;
+import java.nio.file.Path;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class FinishedTask {
     private final Task task;
     private final Result result;

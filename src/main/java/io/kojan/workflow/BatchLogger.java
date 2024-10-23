@@ -18,9 +18,7 @@ package io.kojan.workflow;
 import io.kojan.workflow.model.Task;
 import io.kojan.workflow.model.Workflow;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class BatchLogger implements WorkflowExecutionListener {
     private void log(Object... args) {
         StringBuilder sb = new StringBuilder();
@@ -39,13 +37,21 @@ public class BatchLogger implements WorkflowExecutionListener {
 
     @Override
     public void taskSucceeded(Workflow workflow, FinishedTask finishedTask) {
-        log(finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(), ", reason: ",
+        log(
+                finishedTask.getTask(),
+                " finished; outcome is ",
+                finishedTask.getResult().getOutcome(),
+                ", reason: ",
                 finishedTask.getResult().getOutcomeReason());
     }
 
     @Override
     public void taskFailed(Workflow workflow, FinishedTask finishedTask) {
-        log(finishedTask.getTask(), " finished; outcome is ", finishedTask.getResult().getOutcome(), ", reason: ",
+        log(
+                finishedTask.getTask(),
+                " finished; outcome is ",
+                finishedTask.getResult().getOutcome(),
+                ", reason: ",
                 finishedTask.getResult().getOutcomeReason());
     }
 

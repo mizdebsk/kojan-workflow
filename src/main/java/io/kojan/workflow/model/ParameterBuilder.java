@@ -17,9 +17,7 @@ package io.kojan.workflow.model;
 
 import io.kojan.xml.Builder;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class ParameterBuilder implements Builder<Parameter> {
     private String name;
     private String value;

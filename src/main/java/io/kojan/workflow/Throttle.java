@@ -17,10 +17,9 @@ package io.kojan.workflow;
 
 import io.kojan.workflow.model.Task;
 
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public interface Throttle {
     void acquireCapacity(Task task);
+
     void releaseCapacity(Task task);
 }

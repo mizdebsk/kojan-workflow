@@ -15,15 +15,12 @@
  */
 package io.kojan.workflow.model;
 
+import io.kojan.xml.Builder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.kojan.xml.Builder;
-
-/**
- * @author Mikolaj Izdebski
- */
+/** @author Mikolaj Izdebski */
 public class ResultBuilder implements Builder<Result> {
     private String id;
     private String taskId;

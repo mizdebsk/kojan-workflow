@@ -16,5 +16,7 @@
 package io.kojan.workflow.model;
 
 public enum TaskOutcome {
-    SUCCESS, FAILURE, ERROR
+    SUCCESS,
+    FAILURE,
+    ERROR
 }
