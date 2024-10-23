@@ -15,14 +15,16 @@
  */
 package io.kojan.workflow.model;
 
+import io.kojan.xml.Attribute;
 import io.kojan.xml.Entity;
+import io.kojan.xml.Relationship;
+import io.kojan.xml.XMLException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.xml.stream.XMLStreamException;
 
 /** @author Mikolaj Izdebski */
 public class Result {
@@ -79,34 +81,37 @@ public class Result {
         return timeFinished;
     }
 
-    static final Entity<Result, ResultBuilder> ENTITY = new Entity<>("result", ResultBuilder::new);
+    static final Entity<Result, ResultBuilder> ENTITY = Entity.of(
+            "result",
+            ResultBuilder::new,
+            Attribute.of("id", Result::getId, ResultBuilder::setId),
+            Attribute.of("task", Result::getTaskId, ResultBuilder::setTaskId),
+            Relationship.of(Artifact.ENTITY, Result::getArtifacts, ResultBuilder::addArtifact),
+            Attribute.of(
+                    "outcome",
+                    Result::getOutcome,
+                    ResultBuilder::setOutcome,
+                    TaskOutcome::toString,
+                    TaskOutcome::valueOf),
+            Attribute.of("outcomeReason", Result::getOutcomeReason, ResultBuilder::setOutcomeReason),
+            Attribute.of(
+                    "timeStarted",
+                    Result::getTimeStarted,
+                    ResultBuilder::setTimeStarted,
+                    LocalDateTime::toString,
+                    LocalDateTime::parse),
+            Attribute.of(
+                    "timeFinished",
+                    Result::getTimeFinished,
+                    ResultBuilder::setTimeFinished,
+                    LocalDateTime::toString,
+                    LocalDateTime::parse));
 
-    static {
-        ENTITY.addAttribute("id", Result::getId, ResultBuilder::setId);
-        ENTITY.addAttribute("task", Result::getTaskId, ResultBuilder::setTaskId);
-        ENTITY.addRelationship(Artifact.ENTITY, Result::getArtifacts, ResultBuilder::addArtifact);
-        ENTITY.addAttribute(
-                "outcome", Result::getOutcome, ResultBuilder::setOutcome, TaskOutcome::toString, TaskOutcome::valueOf);
-        ENTITY.addAttribute("outcomeReason", Result::getOutcomeReason, ResultBuilder::setOutcomeReason);
-        ENTITY.addAttribute(
-                "timeStarted",
-                Result::getTimeStarted,
-                ResultBuilder::setTimeStarted,
-                LocalDateTime::toString,
-                LocalDateTime::parse);
-        ENTITY.addAttribute(
-                "timeFinished",
-                Result::getTimeFinished,
-                ResultBuilder::setTimeFinished,
-                LocalDateTime::toString,
-                LocalDateTime::parse);
-    }
-
-    public static Result readFromXML(Path path) throws IOException, XMLStreamException {
+    public static Result readFromXML(Path path) throws IOException, XMLException {
         return ENTITY.readFromXML(path);
     }
 
-    public void writeToXML(Path path) throws IOException, XMLStreamException {
+    public void writeToXML(Path path) throws IOException, XMLException {
         ENTITY.writeToXML(path, this);
     }
 }
