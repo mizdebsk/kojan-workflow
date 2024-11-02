@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class Workflow {
     private final List<Task> tasks;
     private final List<Result> results;
@@ -44,11 +46,13 @@ public class Workflow {
         return results;
     }
 
-    static final Entity<Workflow, WorkflowBuilder> ENTITY = Entity.of(
-            "workflow",
-            WorkflowBuilder::new,
-            Relationship.of(Task.ENTITY, Workflow::getTasks, WorkflowBuilder::addTask),
-            Relationship.of(Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult));
+    static final Entity<Workflow, WorkflowBuilder> ENTITY =
+            Entity.of(
+                    "workflow",
+                    WorkflowBuilder::new,
+                    Relationship.of(Task.ENTITY, Workflow::getTasks, WorkflowBuilder::addTask),
+                    Relationship.of(
+                            Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult));
 
     public static Workflow readFromXML(Reader reader) throws XMLException {
         return ENTITY.readFromXML(reader);

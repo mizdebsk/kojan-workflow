@@ -25,7 +25,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class WorkflowExecutor {
     private final TaskHandlerFactory handlerFactory;
     private final CacheManager cacheManager;

@@ -17,7 +17,9 @@ package io.kojan.workflow;
 
 import io.kojan.workflow.model.Task;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public interface TaskHandlerFactory {
     TaskHandler createTaskHandler(Task task);
 }

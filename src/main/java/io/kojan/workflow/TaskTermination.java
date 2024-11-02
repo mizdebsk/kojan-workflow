@@ -17,7 +17,9 @@ package io.kojan.workflow;
 
 import io.kojan.workflow.model.TaskOutcome;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public final class TaskTermination extends Throwable {
     private static final long serialVersionUID = 1;
 

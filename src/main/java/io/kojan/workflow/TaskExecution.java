@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class TaskExecution extends Thread {
     private final WorkflowExecutor wfe;
     private final TaskHandlerFactory handlerFactory;
@@ -46,7 +48,10 @@ public class TaskExecution extends Thread {
     private Path workDir;
 
     public TaskExecution(
-            WorkflowExecutor wfe, TaskHandlerFactory handlerFactory, Task task, List<FinishedTask> dependencies) {
+            WorkflowExecutor wfe,
+            TaskHandlerFactory handlerFactory,
+            Task task,
+            List<FinishedTask> dependencies) {
         this.wfe = wfe;
         this.handlerFactory = handlerFactory;
         this.task = task;
@@ -67,11 +72,12 @@ public class TaskExecution extends Thread {
                 md.update(Byte.MIN_VALUE);
             }
             byte[] digest = md.digest();
-            this.resultId = new BigInteger(1, digest)
-                    .setBit(digest.length << 3)
-                    .toString(16)
-                    .substring(1)
-                    .toUpperCase();
+            this.resultId =
+                    new BigInteger(1, digest)
+                            .setBit(digest.length << 3)
+                            .toString(16)
+                            .substring(1)
+                            .toUpperCase();
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException(e);
         }
@@ -107,7 +113,8 @@ public class TaskExecution extends Thread {
         }
 
         if (artifacts.isEmpty()) {
-            TaskTermination.error(task + " was expected to have a dependency artifact of type " + type);
+            TaskTermination.error(
+                    task + " was expected to have a dependency artifact of type " + type);
         }
 
         return artifacts;
@@ -117,7 +124,8 @@ public class TaskExecution extends Thread {
         List<Path> artifacts = getDependencyArtifacts(type);
 
         if (artifacts.size() > 1) {
-            TaskTermination.error(task + " was expected to have only one dependency artifact of type " + type);
+            TaskTermination.error(
+                    task + " was expected to have only one dependency artifact of type " + type);
         }
 
         return artifacts.getFirst();
@@ -146,7 +154,8 @@ public class TaskExecution extends Thread {
 
             workDir = wfe.getCacheManager().createWorkDir(task.getId());
         } catch (IOException e) {
-            throw TaskTermination.error("I/O error when creating task directories: " + e.getMessage());
+            throw TaskTermination.error(
+                    "I/O error when creating task directories: " + e.getMessage());
         }
     }
 
@@ -154,7 +163,8 @@ public class TaskExecution extends Thread {
         try {
             deleteDirectoryIfExists(workDir);
         } catch (IOException e) {
-            throw TaskTermination.error("I/O error when deleting task work directory: " + e.getMessage());
+            throw TaskTermination.error(
+                    "I/O error when deleting task work directory: " + e.getMessage());
         }
     }
 
@@ -183,9 +193,14 @@ public class TaskExecution extends Thread {
                 // All dependency tasks completed before cached result was even
                 // started?
                 if (getDependencies().stream()
-                        .allMatch(dep ->
-                                dep.getResult().getTimeFinished().compareTo(cachedResult.getTimeStarted()) <= 0)) {
-                    FinishedTask finishedTask = new FinishedTask(getTask(), cachedResult, resultDir);
+                        .allMatch(
+                                dep ->
+                                        dep.getResult()
+                                                        .getTimeFinished()
+                                                        .compareTo(cachedResult.getTimeStarted())
+                                                <= 0)) {
+                    FinishedTask finishedTask =
+                            new FinishedTask(getTask(), cachedResult, resultDir);
                     wfe.stateChangeFromPendingToFinished(finishedTask);
                     return;
                 }
@@ -202,14 +217,15 @@ public class TaskExecution extends Thread {
             TaskTermination termination = handleTask();
             LocalDateTime timeFinished = LocalDateTime.now();
 
-            Result result = new Result(
-                    resultId,
-                    task.getId(),
-                    artifacts,
-                    termination.getOutcome(),
-                    termination.getMessage(),
-                    timeStarted,
-                    timeFinished);
+            Result result =
+                    new Result(
+                            resultId,
+                            task.getId(),
+                            artifacts,
+                            termination.getOutcome(),
+                            termination.getMessage(),
+                            timeStarted,
+                            timeFinished);
             if (result.getOutcome() == TaskOutcome.SUCCESS) {
                 try {
                     result.writeToXML(resultDir.resolve("result.xml"));
