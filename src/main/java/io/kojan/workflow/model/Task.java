@@ -21,7 +21,9 @@ import io.kojan.xml.Relationship;
 import java.util.Collections;
 import java.util.List;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class Task {
     private final String id;
     private final String handler;
@@ -63,11 +65,14 @@ public class Task {
         return "Task(" + id + ")";
     }
 
-    static final Entity<Task, TaskBuilder> ENTITY = Entity.of(
-            "task",
-            TaskBuilder::new,
-            Attribute.of("id", Task::getId, TaskBuilder::setId),
-            Attribute.of("handler", Task::getHandler, TaskBuilder::setHandler),
-            Attribute.ofMulti("dependency", Task::getDependencies, TaskBuilder::addDependency),
-            Relationship.of(Parameter.ENTITY, Task::getParameters, TaskBuilder::addParameter));
+    static final Entity<Task, TaskBuilder> ENTITY =
+            Entity.of(
+                    "task",
+                    TaskBuilder::new,
+                    Attribute.of("id", Task::getId, TaskBuilder::setId),
+                    Attribute.of("handler", Task::getHandler, TaskBuilder::setHandler),
+                    Attribute.ofMulti(
+                            "dependency", Task::getDependencies, TaskBuilder::addDependency),
+                    Relationship.of(
+                            Parameter.ENTITY, Task::getParameters, TaskBuilder::addParameter));
 }

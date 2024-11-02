@@ -20,13 +20,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermissions;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class CacheManager {
     private final Path resultRootDir;
     private final Path cacheRootDir;
     private final Path workRootDir;
 
-    public CacheManager(Path resultRootDir, Path cacheRootDir, Path workRootDir) throws IOException {
+    public CacheManager(Path resultRootDir, Path cacheRootDir, Path workRootDir)
+            throws IOException {
         this.resultRootDir = resultRootDir;
         this.cacheRootDir = cacheRootDir;
         this.workRootDir = workRootDir;

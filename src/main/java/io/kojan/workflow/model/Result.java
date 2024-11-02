@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class Result {
     private final String id;
     private final String taskId;
@@ -81,31 +83,36 @@ public class Result {
         return timeFinished;
     }
 
-    static final Entity<Result, ResultBuilder> ENTITY = Entity.of(
-            "result",
-            ResultBuilder::new,
-            Attribute.of("id", Result::getId, ResultBuilder::setId),
-            Attribute.of("task", Result::getTaskId, ResultBuilder::setTaskId),
-            Relationship.of(Artifact.ENTITY, Result::getArtifacts, ResultBuilder::addArtifact),
-            Attribute.of(
-                    "outcome",
-                    Result::getOutcome,
-                    ResultBuilder::setOutcome,
-                    TaskOutcome::toString,
-                    TaskOutcome::valueOf),
-            Attribute.of("outcomeReason", Result::getOutcomeReason, ResultBuilder::setOutcomeReason),
-            Attribute.of(
-                    "timeStarted",
-                    Result::getTimeStarted,
-                    ResultBuilder::setTimeStarted,
-                    LocalDateTime::toString,
-                    LocalDateTime::parse),
-            Attribute.of(
-                    "timeFinished",
-                    Result::getTimeFinished,
-                    ResultBuilder::setTimeFinished,
-                    LocalDateTime::toString,
-                    LocalDateTime::parse));
+    static final Entity<Result, ResultBuilder> ENTITY =
+            Entity.of(
+                    "result",
+                    ResultBuilder::new,
+                    Attribute.of("id", Result::getId, ResultBuilder::setId),
+                    Attribute.of("task", Result::getTaskId, ResultBuilder::setTaskId),
+                    Relationship.of(
+                            Artifact.ENTITY, Result::getArtifacts, ResultBuilder::addArtifact),
+                    Attribute.of(
+                            "outcome",
+                            Result::getOutcome,
+                            ResultBuilder::setOutcome,
+                            TaskOutcome::toString,
+                            TaskOutcome::valueOf),
+                    Attribute.of(
+                            "outcomeReason",
+                            Result::getOutcomeReason,
+                            ResultBuilder::setOutcomeReason),
+                    Attribute.of(
+                            "timeStarted",
+                            Result::getTimeStarted,
+                            ResultBuilder::setTimeStarted,
+                            LocalDateTime::toString,
+                            LocalDateTime::parse),
+                    Attribute.of(
+                            "timeFinished",
+                            Result::getTimeFinished,
+                            ResultBuilder::setTimeFinished,
+                            LocalDateTime::toString,
+                            LocalDateTime::parse));
 
     public static Result readFromXML(Path path) throws IOException, XMLException {
         return ENTITY.readFromXML(path);

@@ -19,7 +19,9 @@ import io.kojan.xml.Builder;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author Mikolaj Izdebski */
+/**
+ * @author Mikolaj Izdebski
+ */
 public class TaskBuilder implements Builder<Task> {
     private String id;
     private String handler;
