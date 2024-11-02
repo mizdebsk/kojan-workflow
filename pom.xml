@@ -23,7 +23,9 @@
   </parent>
   <artifactId>kojan-workflow</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-
+  <properties>
+    <kojan.javaRelease>17</kojan.javaRelease>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>io.kojan</groupId>
