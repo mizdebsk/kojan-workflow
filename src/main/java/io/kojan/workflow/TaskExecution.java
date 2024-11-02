@@ -128,7 +128,7 @@ public class TaskExecution extends Thread {
                     task + " was expected to have only one dependency artifact of type " + type);
         }
 
-        return artifacts.getFirst();
+        return artifacts.iterator().next();
     }
 
     public Path addArtifact(ArtifactType type, String name) {
