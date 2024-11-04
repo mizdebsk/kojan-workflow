@@ -19,7 +19,6 @@ import io.kojan.workflow.model.Task;
 import io.kojan.workflow.model.TaskOutcome;
 import io.kojan.workflow.model.Workflow;
 import io.kojan.workflow.model.WorkflowBuilder;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,7 +40,6 @@ public class WorkflowExecutor {
 
     public WorkflowExecutor(
             Workflow wf,
-            Path wfPath,
             TaskHandlerFactory handlerFactory,
             CacheManager cacheManager,
             Throttle throttle,
