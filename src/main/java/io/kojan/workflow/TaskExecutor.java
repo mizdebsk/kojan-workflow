@@ -44,8 +44,8 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
     private final List<FinishedTask> dependencies;
     private final String resultId;
     private final Path resultDir;
+    private final Path workDir;
     private final List<Artifact> artifacts = new ArrayList<>();
-    private Path workDir;
 
     public TaskExecutor(
             WorkflowExecutor wfe,
@@ -83,6 +83,7 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
         }
 
         this.resultDir = wfe.getCacheManager().getResultDir(task.getId(), resultId);
+        this.workDir = wfe.getCacheManager().getWorkDir(task.getId(), resultId);
     }
 
     public Task getTask() {
@@ -151,8 +152,9 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
             Files.createDirectories(resultDir.getParent());
             deleteDirectoryIfExists(resultDir);
             Files.createDirectory(resultDir);
-
-            workDir = wfe.getCacheManager().createWorkDir(task.getId());
+            Files.createDirectories(workDir.getParent());
+            deleteDirectoryIfExists(workDir);
+            Files.createDirectory(workDir);
         } catch (IOException e) {
             throw TaskTermination.error(
                     "I/O error when creating task directories: " + e.getMessage());

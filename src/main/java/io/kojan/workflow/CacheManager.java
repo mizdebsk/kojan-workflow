@@ -51,6 +51,10 @@ public class CacheManager {
         return resultRootDir.resolve(taskId).resolve(resultId);
     }
 
+    public Path getWorkDir(String taskId, String resultId) {
+        return workRootDir.resolve(taskId).resolve(resultId);
+    }
+
     public Path getDistGit(String key) throws IOException {
         Path distgitCacheDir = cacheRootDir.resolve("distgit");
         Files.createDirectories(distgitCacheDir);
@@ -70,10 +74,5 @@ public class CacheManager {
                 cachePendingDir,
                 key,
                 PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxr-xr-x")));
-    }
-
-    public Path createWorkDir(String key) throws IOException {
-        Files.createDirectories(workRootDir);
-        return Files.createTempDirectory(workRootDir, key + "-");
     }
 }
