@@ -56,11 +56,11 @@ public class WorkflowExecutor {
         }
     }
 
-    public CacheManager getCacheManager() {
+    CacheManager getCacheManager() {
         return cacheManager;
     }
 
-    public Throttle getThrottle() {
+    Throttle getThrottle() {
         return throttle;
     }
 
@@ -74,7 +74,7 @@ public class WorkflowExecutor {
         }
     }
 
-    public synchronized void stateChangeFromRunningToFinished(FinishedTask finishedTask) {
+    synchronized void stateChangeFromRunningToFinished(FinishedTask finishedTask) {
         workflowBuilder.addResult(finishedTask.getResult());
         pendingOrRunningTasks.remove(finishedTask.getTask());
         if (finishedTask.getResult().getOutcome() == TaskOutcome.SUCCESS) {
@@ -91,7 +91,7 @@ public class WorkflowExecutor {
         notify();
     }
 
-    public synchronized void stateChangeFromPendingToFinished(FinishedTask finishedTask) {
+    synchronized void stateChangeFromPendingToFinished(FinishedTask finishedTask) {
         workflowBuilder.addResult(finishedTask.getResult());
         pendingOrRunningTasks.remove(finishedTask.getTask());
         successfullyFinishedTasks.add(finishedTask);
