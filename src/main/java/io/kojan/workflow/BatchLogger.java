@@ -21,7 +21,7 @@ import io.kojan.workflow.model.Workflow;
 /**
  * @author Mikolaj Izdebski
  */
-public class BatchLogger implements WorkflowExecutionListener {
+class BatchLogger implements WorkflowExecutionListener {
     private void log(Object... args) {
         StringBuilder sb = new StringBuilder();
 
