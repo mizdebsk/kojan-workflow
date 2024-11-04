@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2021 Red Hat, Inc.
+ * Copyright (c) 2024 Red Hat, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,28 @@
  */
 package io.kojan.workflow;
 
+import io.kojan.workflow.model.ArtifactType;
+import io.kojan.workflow.model.Task;
+import java.nio.file.Path;
+import java.util.List;
+
 /**
  * @author Mikolaj Izdebski
  */
-public interface TaskHandler {
-    void handleTask(TaskExecutionContext context) throws TaskTermination;
+public interface TaskExecutionContext {
+    Task getTask();
+
+    List<FinishedTask> getDependencies();
+
+    Path getWorkDir();
+
+    Path getResultDir();
+
+    List<Path> getDependencyArtifacts(ArtifactType type) throws TaskTermination;
+
+    Path getDependencyArtifact(ArtifactType type) throws TaskTermination;
+
+    Path addArtifact(ArtifactType type, String name);
+
+    CacheManager getCacheManager();
 }

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * @author Mikolaj Izdebski
  */
-public class TaskExecution extends Thread {
+class TaskExecution extends Thread implements TaskExecutionContext {
     private final WorkflowExecutor wfe;
     private final TaskHandlerFactory handlerFactory;
     private final Task task;
