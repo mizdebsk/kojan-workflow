@@ -20,7 +20,7 @@ import io.kojan.workflow.model.Task;
 /**
  * @author Mikolaj Izdebski
  */
-public interface Throttle {
+public interface TaskThrottle {
     void acquireCapacity(Task task);
 
     void releaseCapacity(Task task);

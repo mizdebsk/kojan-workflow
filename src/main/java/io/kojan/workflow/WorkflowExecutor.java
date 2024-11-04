@@ -35,14 +35,14 @@ public class WorkflowExecutor {
     private final Set<Task> pendingOrRunningTasks = new LinkedHashSet<>();
     private final Set<FinishedTask> successfullyFinishedTasks = new LinkedHashSet<>();
     private final Set<FinishedTask> unsuccessfullyFinishedTasks = new LinkedHashSet<>();
-    private final Throttle throttle;
+    private final TaskThrottle throttle;
     private final List<WorkflowExecutionListener> listeners = new ArrayList<>();
 
     public WorkflowExecutor(
             Workflow wf,
             TaskHandlerFactory handlerFactory,
             TaskStorage storage,
-            Throttle throttle,
+            TaskThrottle throttle,
             boolean batchMode) {
         wf.getTasks().stream().forEach(workflowBuilder::addTask);
         newTasks = new LinkedHashSet<>(wf.getTasks());
@@ -60,7 +60,7 @@ public class WorkflowExecutor {
         return storage;
     }
 
-    Throttle getThrottle() {
+    TaskThrottle getThrottle() {
         return throttle;
     }
 
