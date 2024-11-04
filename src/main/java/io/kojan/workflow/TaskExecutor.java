@@ -82,8 +82,8 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
             throw new IllegalStateException(e);
         }
 
-        this.resultDir = wfe.getCacheManager().getResultDir(task.getId(), resultId);
-        this.workDir = wfe.getCacheManager().getWorkDir(task.getId(), resultId);
+        this.resultDir = wfe.getStorage().getResultDir(task, resultId);
+        this.workDir = wfe.getStorage().getWorkDir(task, resultId);
     }
 
     public Task getTask() {
@@ -241,9 +241,5 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
         } finally {
             wfe.getThrottle().releaseCapacity(task);
         }
-    }
-
-    public CacheManager getCacheManager() {
-        return wfe.getCacheManager();
     }
 }

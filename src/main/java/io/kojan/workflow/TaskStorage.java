@@ -15,26 +15,11 @@
  */
 package io.kojan.workflow;
 
-import io.kojan.workflow.model.ArtifactType;
 import io.kojan.workflow.model.Task;
 import java.nio.file.Path;
-import java.util.List;
 
-/**
- * @author Mikolaj Izdebski
- */
-public interface TaskExecutionContext {
-    Task getTask();
+public interface TaskStorage {
+    Path getResultDir(Task task, String resultId);
 
-    List<FinishedTask> getDependencies();
-
-    Path getWorkDir();
-
-    Path getResultDir();
-
-    List<Path> getDependencyArtifacts(ArtifactType type) throws TaskTermination;
-
-    Path getDependencyArtifact(ArtifactType type) throws TaskTermination;
-
-    Path addArtifact(ArtifactType type, String name);
+    Path getWorkDir(Task task, String resultId);
 }

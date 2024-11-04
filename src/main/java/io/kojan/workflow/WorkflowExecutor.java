@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public class WorkflowExecutor {
     private final TaskHandlerFactory handlerFactory;
-    private final CacheManager cacheManager;
+    private final TaskStorage storage;
     private final WorkflowBuilder workflowBuilder = new WorkflowBuilder();
     private final Set<Task> newTasks;
     private final Set<Task> pendingOrRunningTasks = new LinkedHashSet<>();
@@ -41,13 +41,13 @@ public class WorkflowExecutor {
     public WorkflowExecutor(
             Workflow wf,
             TaskHandlerFactory handlerFactory,
-            CacheManager cacheManager,
+            TaskStorage storage,
             Throttle throttle,
             boolean batchMode) {
         wf.getTasks().stream().forEach(workflowBuilder::addTask);
         newTasks = new LinkedHashSet<>(wf.getTasks());
         this.handlerFactory = handlerFactory;
-        this.cacheManager = cacheManager;
+        this.storage = storage;
         this.throttle = throttle;
         if (batchMode) {
             listeners.add(new BatchLogger());
@@ -56,8 +56,8 @@ public class WorkflowExecutor {
         }
     }
 
-    CacheManager getCacheManager() {
-        return cacheManager;
+    TaskStorage getStorage() {
+        return storage;
     }
 
     Throttle getThrottle() {
