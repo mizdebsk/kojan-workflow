@@ -21,10 +21,10 @@ import io.kojan.xml.Builder;
  * @author Mikolaj Izdebski
  */
 public class ArtifactBuilder implements Builder<Artifact> {
-    private ArtifactType type;
+    private String type;
     private String name;
 
-    public void setType(ArtifactType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

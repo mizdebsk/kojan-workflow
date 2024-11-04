@@ -22,15 +22,15 @@ import io.kojan.xml.Entity;
  * @author Mikolaj Izdebski
  */
 public class Artifact {
-    private final ArtifactType type;
+    private final String type;
     private final String name;
 
-    public Artifact(ArtifactType type, String name) {
+    public Artifact(String type, String name) {
         this.type = type;
         this.name = name;
     }
 
-    public ArtifactType getType() {
+    public String getType() {
         return type;
     }
 
@@ -42,11 +42,6 @@ public class Artifact {
             Entity.of(
                     "artifact",
                     ArtifactBuilder::new,
-                    Attribute.of(
-                            "type",
-                            Artifact::getType,
-                            ArtifactBuilder::setType,
-                            ArtifactType::toString,
-                            ArtifactType::valueOf),
+                    Attribute.of("type", Artifact::getType, ArtifactBuilder::setType),
                     Attribute.of("name", Artifact::getName, ArtifactBuilder::setName));
 }

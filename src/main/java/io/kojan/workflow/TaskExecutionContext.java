@@ -15,7 +15,6 @@
  */
 package io.kojan.workflow;
 
-import io.kojan.workflow.model.ArtifactType;
 import io.kojan.workflow.model.Task;
 import java.nio.file.Path;
 import java.util.List;
@@ -32,9 +31,9 @@ public interface TaskExecutionContext {
 
     Path getResultDir();
 
-    List<Path> getDependencyArtifacts(ArtifactType type) throws TaskTermination;
+    List<Path> getDependencyArtifacts(String type) throws TaskTermination;
 
-    Path getDependencyArtifact(ArtifactType type) throws TaskTermination;
+    Path getDependencyArtifact(String type) throws TaskTermination;
 
-    Path addArtifact(ArtifactType type, String name);
+    Path addArtifact(String type, String name);
 }

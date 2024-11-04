@@ -16,7 +16,6 @@
 package io.kojan.workflow;
 
 import io.kojan.workflow.model.Artifact;
-import io.kojan.workflow.model.ArtifactType;
 import io.kojan.workflow.model.Parameter;
 import io.kojan.workflow.model.Result;
 import io.kojan.workflow.model.Task;
@@ -102,7 +101,7 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
         return resultDir;
     }
 
-    public List<Path> getDependencyArtifacts(ArtifactType type) throws TaskTermination {
+    public List<Path> getDependencyArtifacts(String type) throws TaskTermination {
         List<Path> artifacts = new ArrayList<>();
 
         for (FinishedTask dependency : getDependencies()) {
@@ -121,7 +120,7 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
         return artifacts;
     }
 
-    public Path getDependencyArtifact(ArtifactType type) throws TaskTermination {
+    public Path getDependencyArtifact(String type) throws TaskTermination {
         List<Path> artifacts = getDependencyArtifacts(type);
 
         if (artifacts.size() > 1) {
@@ -132,7 +131,7 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
         return artifacts.iterator().next();
     }
 
-    public Path addArtifact(ArtifactType type, String name) {
+    public Path addArtifact(String type, String name) {
         Artifact artifact = new Artifact(type, name);
         artifacts.add(artifact);
         return resultDir.resolve(artifact.getName());
