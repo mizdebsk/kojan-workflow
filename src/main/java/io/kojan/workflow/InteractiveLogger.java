@@ -133,6 +133,11 @@ class InteractiveLogger implements WorkflowExecutionListener {
     }
 
     @Override
+    public void workflowRunning(Workflow workflow) {
+        log(Color.RUNNING, "Workflow running");
+    }
+
+    @Override
     public void workflowSucceeded(Workflow workflow) {
         log(Color.SUCCEEDED, "Workflow complete");
         System.err.println();

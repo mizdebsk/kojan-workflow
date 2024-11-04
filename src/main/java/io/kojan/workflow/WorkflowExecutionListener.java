@@ -30,6 +30,8 @@ public interface WorkflowExecutionListener {
 
     void taskReused(Workflow workflow, FinishedTask finishedTask);
 
+    void workflowRunning(Workflow workflow);
+
     void workflowSucceeded(Workflow workflow);
 
     void workflowFailed(Workflow workflow);

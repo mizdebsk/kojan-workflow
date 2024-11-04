@@ -63,6 +63,11 @@ class BatchLogger implements WorkflowExecutionListener {
     }
 
     @Override
+    public void workflowRunning(Workflow workflow) {
+        log("Workflow running");
+    }
+
+    @Override
     public void workflowSucceeded(Workflow workflow) {
         log("Workflow complete");
     }
