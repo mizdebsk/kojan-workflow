@@ -121,7 +121,7 @@ public class WorkflowExecutor {
                     newTasks.remove(td);
                     pendingOrRunningTasks.add(td);
 
-                    Thread thread = new TaskExecution(this, handlerFactory, td, deps);
+                    Thread thread = new TaskExecutor(this, handlerFactory, td, deps);
                     thread.start();
                     threads.add(thread);
                     continue outer;

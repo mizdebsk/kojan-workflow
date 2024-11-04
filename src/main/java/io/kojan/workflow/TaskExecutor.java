@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * @author Mikolaj Izdebski
  */
-class TaskExecution extends Thread implements TaskExecutionContext {
+class TaskExecutor extends Thread implements TaskExecutionContext {
     private final WorkflowExecutor wfe;
     private final TaskHandlerFactory handlerFactory;
     private final Task task;
@@ -47,7 +47,7 @@ class TaskExecution extends Thread implements TaskExecutionContext {
     private final List<Artifact> artifacts = new ArrayList<>();
     private Path workDir;
 
-    public TaskExecution(
+    public TaskExecutor(
             WorkflowExecutor wfe,
             TaskHandlerFactory handlerFactory,
             Task task,
