@@ -27,21 +27,40 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * A compound work unit. A set of interrelated {@link Task}s that are executed until they are
+ * completed. Each task may have an optional associated {@link Result}.
+ *
  * @author Mikolaj Izdebski
  */
 public class Workflow {
     private final List<Task> tasks;
     private final List<Result> results;
 
+    /**
+     * Creates a workflow object.
+     *
+     * @param tasks list of tasks that make up this workflow
+     * @param results list of results of some of the tasks
+     */
     public Workflow(List<Task> tasks, List<Result> results) {
         this.tasks = Collections.unmodifiableList(new ArrayList<>(tasks));
         this.results = Collections.unmodifiableList(new ArrayList<>(results));
     }
 
+    /**
+     * Determines the tasks that make up this workflow.
+     *
+     * @return list of tasks that make up this workflow
+     */
     public List<Task> getTasks() {
         return tasks;
     }
 
+    /**
+     * Determines available results of some of the tasks that make up this workflow.
+     *
+     * @return list of results of some of the tasks
+     */
     public List<Result> getResults() {
         return results;
     }
@@ -54,26 +73,67 @@ public class Workflow {
                     Relationship.of(
                             Result.ENTITY, Workflow::getResults, WorkflowBuilder::addResult));
 
+    /**
+     * Reads a workflow as XML from the specified {@link Reader}.
+     *
+     * @param reader XML stream to deserialize data from
+     * @return workflow object deserialized from XML form
+     * @throws XMLException in case an exception occurs during XML deserialization
+     */
     public static Workflow readFromXML(Reader reader) throws XMLException {
         return ENTITY.readFromXML(reader);
     }
 
+    /**
+     * Reads a workflow from an XML file at specified {@link Path}.
+     *
+     * @param path path to XML file to deserialize data from
+     * @return workflow object deserialized from XML form
+     * @throws IOException in case I/O error occurs when reading the file
+     * @throws XMLException in case an exception occurs during XML deserialization
+     */
     public static Workflow readFromXML(Path path) throws IOException, XMLException {
         return ENTITY.readFromXML(path);
     }
 
+    /**
+     * Deserializes a workflow object from an XML string.
+     *
+     * @param xml String containing XML-encoded workflow object
+     * @return workflow object deserialized from XML form
+     * @throws XMLException in case an exception occurs during XML deserialization
+     */
     public static Workflow fromXML(String xml) throws XMLException {
         return ENTITY.fromXML(xml);
     }
 
+    /**
+     * Writes the workflow as XML to the specified {@link Writer}.
+     *
+     * @param writer XML stream to serialize data to
+     * @throws XMLException in case an exception occurs during XML serialization
+     */
     public void writeToXML(Writer writer) throws XMLException {
         ENTITY.writeToXML(writer, this);
     }
 
+    /**
+     * Writes the workflow as an XML file at specified {@link Path}.
+     *
+     * @param path path to XML file to serialize data to
+     * @throws IOException in case I/O error occurs when writing the file
+     * @throws XMLException in case an exception occurs during XML serialization
+     */
     public void writeToXML(Path path) throws IOException, XMLException {
         ENTITY.writeToXML(path, this);
     }
 
+    /**
+     * Serializes the workflow object to an XML string.
+     *
+     * @return String containing XML-encoded workflow object
+     * @throws XMLException in case an exception occurs during XML serialization
+     */
     public String toXML() throws XMLException {
         return ENTITY.toXML(this);
     }

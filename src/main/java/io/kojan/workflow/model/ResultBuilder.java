@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A {@link Builder} for {@link Result} objects.
+ *
  * @author Mikolaj Izdebski
  */
 public class ResultBuilder implements Builder<Result> {
@@ -32,30 +34,68 @@ public class ResultBuilder implements Builder<Result> {
     private LocalDateTime timeStarted;
     private LocalDateTime timeFinished;
 
+    /** Creates the builder with default initial state. */
+    public ResultBuilder() {}
+
+    /**
+     * Sets unique ID of this result.
+     *
+     * @param id unique ID of this result
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Sets ID of task executed.
+     *
+     * @param taskId ID of task executed
+     */
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
+    /**
+     * Add artifact produced by task execution.
+     *
+     * @param artifact artifact to add
+     */
     public void addArtifact(Artifact artifact) {
         artifacts.add(artifact);
     }
 
+    /**
+     * Sets outcome of task execution.
+     *
+     * @param outcome outcome of task execution
+     */
     public void setOutcome(TaskOutcome outcome) {
         this.outcome = outcome;
     }
 
+    /**
+     * Sets reason of particular task execution outcome.
+     *
+     * @param outcomeReason reason of particular task execution outcome
+     */
     public void setOutcomeReason(String outcomeReason) {
         this.outcomeReason = outcomeReason;
     }
 
+    /**
+     * Sets date and time task execution started.
+     *
+     * @param timeStarted date and time task execution started
+     */
     public void setTimeStarted(LocalDateTime timeStarted) {
         this.timeStarted = timeStarted;
     }
 
+    /**
+     * Sets date and time task execution finished.
+     *
+     * @param timeFinished date and time task execution finished
+     */
     public void setTimeFinished(LocalDateTime timeFinished) {
         this.timeFinished = timeFinished;
     }

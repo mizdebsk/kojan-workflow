@@ -18,8 +18,16 @@ package io.kojan.workflow;
 import io.kojan.workflow.model.Task;
 
 /**
+ * A factory for {@link TaskHandler}s.
+ *
  * @author Mikolaj Izdebski
  */
 public interface TaskHandlerFactory {
+    /**
+     * Creates a {@link TaskHandler} capable of executing the specified {@link Task}.
+     *
+     * @param task task for which handler should be created
+     * @return task handler capable of executing the specified task
+     */
     TaskHandler createTaskHandler(Task task);
 }

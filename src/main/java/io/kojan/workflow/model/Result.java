@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Task execution result.
+ *
  * @author Mikolaj Izdebski
  */
 public class Result {
@@ -38,6 +40,17 @@ public class Result {
     private final LocalDateTime timeStarted;
     private final LocalDateTime timeFinished;
 
+    /**
+     * Creates a task execution result object.
+     *
+     * @param id unique ID of this result
+     * @param taskId ID of task executed
+     * @param artifacts list of artifacts produced by task execution
+     * @param outcome outcome of task execution
+     * @param outcomeReason reason of particular task execution outcome
+     * @param timeStarted date and time task execution started
+     * @param timeFinished date and time task execution finished
+     */
     public Result(
             String id,
             String taskId,
@@ -55,30 +68,65 @@ public class Result {
         this.timeFinished = timeFinished;
     }
 
+    /**
+     * Determines unique ID of this result.
+     *
+     * @return unique ID of the result
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Determines ID of {@link Task} that was executed.
+     *
+     * @return ID of task executed
+     */
     public String getTaskId() {
         return taskId;
     }
 
+    /**
+     * Determines artifacts produced by task execution.
+     *
+     * @return list of artifacts produced by task execution
+     */
     public List<Artifact> getArtifacts() {
         return artifacts;
     }
 
+    /**
+     * Determines outcome of task execution.
+     *
+     * @return outcome of task execution
+     */
     public TaskOutcome getOutcome() {
         return outcome;
     }
 
+    /**
+     * Determines reason of particular task execution outcome.
+     *
+     * @return reason of particular task execution outcome
+     */
     public String getOutcomeReason() {
         return outcomeReason;
     }
 
+    /**
+     * Determines date and time task execution started.
+     *
+     * @return date and time task execution started
+     */
     public LocalDateTime getTimeStarted() {
         return timeStarted;
     }
 
+    /**
+     * Determines date and time task execution finished.
+     *
+     * @return date and time task execution finished
+     */
     public LocalDateTime getTimeFinished() {
         return timeFinished;
     }
@@ -114,10 +162,25 @@ public class Result {
                             LocalDateTime::toString,
                             LocalDateTime::parse));
 
+    /**
+     * Reads task execution result from an XML file at specified {@link Path}.
+     *
+     * @param path path to XML file to deserialize data from
+     * @return task execution result deserialized from XML form
+     * @throws IOException in case I/O error occurs when reading the file
+     * @throws XMLException in case an exception occurs during XML deserialization
+     */
     public static Result readFromXML(Path path) throws IOException, XMLException {
         return ENTITY.readFromXML(path);
     }
 
+    /**
+     * Writes task execution result as an XML file at specified {@link Path}.
+     *
+     * @param path path to XML file to serialize data to
+     * @throws IOException in case I/O error occurs when writing the file
+     * @throws XMLException in case an exception occurs during XML serialization
+     */
     public void writeToXML(Path path) throws IOException, XMLException {
         ENTITY.writeToXML(path, this);
     }

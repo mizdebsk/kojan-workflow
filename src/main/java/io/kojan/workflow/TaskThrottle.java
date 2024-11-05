@@ -18,10 +18,24 @@ package io.kojan.workflow;
 import io.kojan.workflow.model.Task;
 
 /**
+ * A way to limit the pace at which {@link Task}s are executed.
+ *
  * @author Mikolaj Izdebski
  */
 public interface TaskThrottle {
+    /**
+     * Acquire required capacity to allow executing given {@link Task}. Block current thread until
+     * the task can be executed. Called before given task begins executing.
+     *
+     * @param task the task to acquire capacity for
+     */
     void acquireCapacity(Task task);
 
+    /**
+     * Release previously acquired capacity for execution of given {@link Task}. Called after given
+     * task finishes executing.
+     *
+     * @param task the task to release capacity for
+     */
     void releaseCapacity(Task task);
 }

@@ -15,9 +15,22 @@
  */
 package io.kojan.workflow;
 
+import io.kojan.workflow.model.Task;
+
 /**
+ * The code capable of executing a particular {@link Task}.
+ *
  * @author Mikolaj Izdebski
  */
 public interface TaskHandler {
+    /**
+     * Executes the task in the specified context.
+     *
+     * <p>This method never returns and always throws appropriate {@link TaskTermination} throwable
+     * to indicate the outcome of task execution.
+     *
+     * @param context task execution context containing the task to execute
+     * @throws TaskTermination always to indicate outcome of task execution
+     */
     void handleTask(TaskExecutionContext context) throws TaskTermination;
 }

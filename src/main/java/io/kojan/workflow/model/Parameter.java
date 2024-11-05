@@ -19,21 +19,39 @@ import io.kojan.xml.Attribute;
 import io.kojan.xml.Entity;
 
 /**
+ * Task execution parameter. A pair of name and value Strings.
+ *
  * @author Mikolaj Izdebski
  */
 public class Parameter {
     private final String name;
     private final String value;
 
+    /**
+     * Create a parameter with given name and value.
+     *
+     * @param name parameter name
+     * @param value parameter value
+     */
     public Parameter(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
+    /**
+     * Determines parameter name.
+     *
+     * @return parameter name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Determines parameter value.
+     *
+     * @return parameter value
+     */
     public String getValue() {
         return value;
     }

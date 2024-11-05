@@ -18,16 +18,31 @@ package io.kojan.workflow.model;
 import io.kojan.xml.Builder;
 
 /**
+ * A {@link Builder} for {@link Parameter} objects.
+ *
  * @author Mikolaj Izdebski
  */
 public class ParameterBuilder implements Builder<Parameter> {
     private String name;
     private String value;
 
+    /** Creates the builder with default initial state. */
+    public ParameterBuilder() {}
+
+    /**
+     * Sets parameter name.
+     *
+     * @param name parameter name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets parameter value.
+     *
+     * @param value parameter value
+     */
     public void setValue(String value) {
         this.value = value;
     }

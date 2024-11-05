@@ -18,11 +18,15 @@ package io.kojan.workflow;
 import io.kojan.workflow.model.TaskOutcome;
 
 /**
+ * A {@link Throwable} thrown when task execution is finished, also successfully. Indicates task
+ * outcome and outcome reason.
+ *
  * @author Mikolaj Izdebski
  */
 public final class TaskTermination extends Throwable {
     private static final long serialVersionUID = 1;
 
+    /** The task outcome. */
     private final TaskOutcome outcome;
 
     private TaskTermination(TaskOutcome outcome, String reason) {
@@ -30,18 +34,47 @@ public final class TaskTermination extends Throwable {
         this.outcome = outcome;
     }
 
+    /**
+     * Determines the task outcome.
+     *
+     * @return task outcome
+     */
     public TaskOutcome getOutcome() {
         return outcome;
     }
 
+    /**
+     * Creates and throws a task termination with {@link TaskOutcome#ERROR} outcome and specified
+     * reason.
+     *
+     * @param reason the reason for which task errored out
+     * @return never
+     * @throws TaskTermination created task termination throwable
+     */
     public static TaskTermination error(String reason) throws TaskTermination {
         throw new TaskTermination(TaskOutcome.ERROR, reason);
     }
 
+    /**
+     * Creates and throws a task termination with {@link TaskOutcome#FAILURE} outcome and specified
+     * reason.
+     *
+     * @param reason the reason for which task failed
+     * @return never
+     * @throws TaskTermination created task termination throwable
+     */
     public static TaskTermination fail(String reason) throws TaskTermination {
         throw new TaskTermination(TaskOutcome.FAILURE, reason);
     }
 
+    /**
+     * Creates and throws a task termination with {@link TaskOutcome#SUCCESS} outcome and specified
+     * reason.
+     *
+     * @param reason the reason for which task succeeded
+     * @return never
+     * @throws TaskTermination created task termination throwable
+     */
     public static TaskTermination success(String reason) throws TaskTermination {
         throw new TaskTermination(TaskOutcome.SUCCESS, reason);
     }

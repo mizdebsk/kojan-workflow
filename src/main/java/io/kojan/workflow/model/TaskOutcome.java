@@ -15,8 +15,16 @@
  */
 package io.kojan.workflow.model;
 
+/**
+ * Outcome of task execution.
+ *
+ * @author Mikolaj Izdebski
+ */
 public enum TaskOutcome {
+    /** Indicates that the task was successfully completed. */
     SUCCESS,
+    /** Indicates that the task was completed but failed. */
     FAILURE,
+    /** Indicates that the task was not completed due to an error. */
     ERROR
 }

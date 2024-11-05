@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * A facility to execute {@link Workflow}s.
+ *
  * @author Mikolaj Izdebski
  */
 public class WorkflowExecutor {
@@ -38,6 +40,15 @@ public class WorkflowExecutor {
     private final TaskThrottle throttle;
     private final List<WorkflowExecutionListener> listeners = new ArrayList<>();
 
+    /**
+     * Creates a workflow executor.
+     *
+     * @param wf the workflow to execute
+     * @param handlerFactory a factory to create task handlers
+     * @param storage interface to task persistent and ephemeral storage
+     * @param throttle limiter of task execution peace
+     * @param batchMode whether non-interactive logger should be used
+     */
     public WorkflowExecutor(
             Workflow wf,
             TaskHandlerFactory handlerFactory,
@@ -64,11 +75,16 @@ public class WorkflowExecutor {
         return throttle;
     }
 
+    /**
+     * Add event listener that will be notified about various events during workflow execution.
+     *
+     * @param listener the event listener to add
+     */
     public void addExecutionListener(WorkflowExecutionListener listener) {
         listeners.add(listener);
     }
 
-    public synchronized void stateChangeFromPendingToRunning(Task task) {
+    synchronized void stateChangeFromPendingToRunning(Task task) {
         for (WorkflowExecutionListener listener : listeners) {
             listener.taskRunning(workflowBuilder.build(), task);
         }
@@ -101,6 +117,11 @@ public class WorkflowExecutor {
         }
     }
 
+    /**
+     * Executes the workflow until completion or failure.
+     *
+     * @return new workflow state
+     */
     public synchronized Workflow execute() {
         List<Thread> threads = new ArrayList<>();
         outer:

@@ -19,21 +19,42 @@ import io.kojan.xml.Attribute;
 import io.kojan.xml.Entity;
 
 /**
+ * Task artifact file. A file produced by a task execution that should be preserved after task
+ * execution finished.
+ *
+ * <p>Task artifacts have a type and unique name within given task execution.
+ *
  * @author Mikolaj Izdebski
  */
 public class Artifact {
     private final String type;
     private final String name;
 
+    /**
+     * Create an artifact of given type and with given name.
+     *
+     * @param type type of artifact to create
+     * @param name artifact name
+     */
     public Artifact(String type, String name) {
         this.type = type;
         this.name = name;
     }
 
+    /**
+     * Determine artifact type.
+     *
+     * @return artifact type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Determine artifact name.
+     *
+     * @return artifact name
+     */
     public String getName() {
         return name;
     }
