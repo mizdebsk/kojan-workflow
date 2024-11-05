@@ -56,13 +56,6 @@ public class Task {
         this.parameters = Collections.unmodifiableList(parameters);
     }
 
-    public Task(Task descriptor) {
-        this.id = descriptor.getId();
-        this.handler = descriptor.getHandler();
-        this.dependencies = descriptor.getDependencies();
-        this.parameters = descriptor.getParameters();
-    }
-
     /**
      * Determines the unique ID of this task.
      *
