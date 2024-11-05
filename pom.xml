@@ -23,6 +23,13 @@
   </parent>
   <artifactId>kojan-workflow</artifactId>
   <version>1.1.0-SNAPSHOT</version>
+  <name>Kojan Workflow</name>
+  <description>A simple library for concurrently executing interrelated tasks</description>
+  <url>https://github.com/mizdebsk/kojan-workflow</url>
+  <inceptionYear>2024</inceptionYear>
+  <scm>
+    <url>https://github.com/mizdebsk/kojan-workflow.git</url>
+  </scm>
   <properties>
     <kojan.javaRelease>17</kojan.javaRelease>
   </properties>
