@@ -8,12 +8,13 @@ Kojan Workflow
 
 A simple library for concurrently executing interrelated tasks.
 
-This library is used to model workflows as sets of interrelated
-arbitrary tasks that can be executed concurrently.  Each task has a
-handler which is a class implementing code for executing particular
-task and a dedicated storage in the file system.  Task results from
-previous runs can be reused as long as the previous task had identical
-inputs.  Failed tasks can be resumed from the point of failure.
+The Kojan Workflow library is used to model workflows as sets of
+interrelated arbitrary tasks that can be executed concurrently.  Each
+task has a handler which is a class implementing code for executing
+particular task and a dedicated storage in the file system.  Task
+results from previous runs can be reused as long as the previous task
+had identical inputs.  Failed tasks can be resumed from the point of
+failure.
 
 This is free software. You can redistribute and/or modify it under the
 terms of Apache License Version 2.0.
