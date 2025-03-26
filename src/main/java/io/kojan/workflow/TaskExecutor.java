@@ -112,20 +112,19 @@ class TaskExecutor extends Thread implements TaskExecutionContext {
             }
         }
 
-        if (artifacts.isEmpty()) {
-            TaskTermination.error(
-                    task + " was expected to have a dependency artifact of type " + type);
-        }
-
         return artifacts;
     }
 
     public Path getDependencyArtifact(String type) throws TaskTermination {
         List<Path> artifacts = getDependencyArtifacts(type);
 
-        if (artifacts.size() > 1) {
+        if (artifacts.size() != 1) {
             TaskTermination.error(
-                    task + " was expected to have only one dependency artifact of type " + type);
+                    task
+                            + " was expected to have exactly one dependency artifact of type "
+                            + type
+                            + ", but found "
+                            + artifacts.size());
         }
 
         return artifacts.iterator().next();
