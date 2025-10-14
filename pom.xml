@@ -22,7 +22,7 @@
     <version>8</version>
   </parent>
   <artifactId>kojan-workflow</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>Kojan Workflow</name>
   <description>A simple library for concurrently executing interrelated tasks</description>
   <url>https://github.com/mizdebsk/kojan-workflow</url>
